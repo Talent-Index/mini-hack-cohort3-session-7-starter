@@ -25,9 +25,38 @@ function daysAgo(n: number): string {
 }
 
 export const invoices: Invoice[] = [
-  { id: "INV-042", supplier: "Supplier X", amountUsdc: 50, dueDate: daysAgo(4), paid: false, recipient: "0xAB12cd34Ef56aB12Cd34Ef56ab12Cd34Ef56aB12" },
-  { id: "INV-043", supplier: "Supplier Y", amountUsdc: 120, dueDate: daysAgo(1), paid: false, recipient: "0xCd34EF56ab12cD34ef56aB12CD34eF56AB12cD34" },
-  { id: "INV-044", supplier: "Supplier Z", amountUsdc: 30, dueDate: daysAgo(0), paid: true, recipient: "0xeF56ab12CD34Ef56ab12cD34Ef56AB12cD34ef56" },
+  {
+    id: "INV-041",
+    supplier: "Supplier X",
+    amountUsdc: 2,
+    dueDate: daysAgo(4),
+    paid: false,
+    recipient: "0xAB12cd34Ef56aB12Cd34Ef56ab12Cd34Ef56aB12",
+  },
+  {
+    id: "INV-045",
+    supplier: "Supplier A",
+    amountUsdc: 2,
+    dueDate: daysAgo(4),
+    paid: false,
+    recipient: "0xAB12cd34Ef56aB12Cd34Ef56ab12Cd34Ef56aB12",
+  },
+  {
+    id: "INV-043",
+    supplier: "Supplier Y",
+    amountUsdc: 1,
+    dueDate: daysAgo(1),
+    paid: false,
+    recipient: "0xCd34EF56ab12cD34ef56aB12CD34eF56AB12cD34",
+  },
+  {
+    id: "INV-044",
+    supplier: "Supplier Z",
+    amountUsdc: 3,
+    dueDate: daysAgo(0),
+    paid: true,
+    recipient: "0xeF56ab12CD34Ef56ab12cD34Ef56AB12cD34ef56",
+  },
 ];
 
 export function daysOverdue(dueDate: string): number {
@@ -45,14 +74,19 @@ export function preflightChecks(inv: Invoice): string[] {
   const errors: string[] = [];
   const maxPayment = Number(process.env.MAX_PAYMENT_USDC || 500);
 
-  if (!inv.recipient || inv.recipient === "0x0000000000000000000000000000000000000000") {
+  if (
+    !inv.recipient ||
+    inv.recipient === "0x0000000000000000000000000000000000000000"
+  ) {
     errors.push("invalid recipient address");
   }
   if (inv.amountUsdc > maxPayment) {
     errors.push(`amount exceeds spending limit of ${maxPayment} USDC`);
   }
   if (sentPaymentsLog.has(inv.id)) {
-    errors.push("payment already sent for this invoice, idempotency check failed");
+    errors.push(
+      "payment already sent for this invoice, idempotency check failed",
+    );
   }
   return errors;
 }
