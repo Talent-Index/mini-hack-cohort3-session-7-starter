@@ -1,0 +1,24 @@
+# Active provider by default
+anthropic>=0.40.0
+python-dotenv>=1.0.1
+web3>=6.20.0
+chromadb>=1.5.0
+
+# API server (Session 7): wraps payment_agent.py in an HTTP + SSE
+# layer, only needed if you're running api_server.py
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+sse-starlette>=2.0.0
+
+# Only needed if MODEL_PROVIDER=openai
+# openai>=1.50.0
+
+# Only needed if MODEL_PROVIDER=gemini
+# google-genai>=0.3.0
+
+# Ollama needs no package, calls go over plain async HTTP via httpx
+# Also used for the Glacier REST calls in chainkit_fetch.py
+httpx>=0.27.0
+
+# Official MCP Python SDK, needed for chainkit_mcp_agent.py
+mcp>=1.0.0
